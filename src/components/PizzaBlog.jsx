@@ -11,22 +11,22 @@ function PizzaBlog({ name, price, imageUrl, sizes, types }) {
       <h4 className="pizza-block__title">{name}</h4>
       <div className="pizza-block__selector">
         <ul>
-          {types.map((typeId) => (
+          {types.map((id) => (
             <li
-              onClick={() => setActiveType(typeId)}
-              className={activeType === typeId ? "active" : ""}
-              key={typeId}
+              onClick={() => setActiveType(id)}
+              className={activeType === id ? "active" : ""}
+              key={id}
             >
-              {typeName[typeId]}
+              {typeName[id]}
             </li>
           ))}
         </ul>
         <ul>
-          {sizes.map((size, i) => (
+          {sizes.map((size, index) => (
             <li
-              onClick={() => setActiveSize(i)}
-              className={activeSize === i ? "active" : ""}
-              key={i}
+              onClick={() => setActiveSize(index)}
+              className={activeSize === index ? "active" : ""}
+              key={index}
             >
               {size} см.
             </li>

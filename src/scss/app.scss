@@ -6,6 +6,9 @@
 body {
   background-color: $background;
 }
+.rotate-icon{
+  transform: rotate(180deg);
+}
 
 .wrapper {
   width: calc(100vw - 100px);
