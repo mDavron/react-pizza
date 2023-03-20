@@ -6,9 +6,9 @@
 body {
   background-color: $background;
 }
-.rotate-icon{
-  transform: rotate(180deg);
-}
+// .rotate-icon{
+//   transform: rotate(180deg);
+// }
 
 .wrapper {
   width: calc(100vw - 100px);
@@ -29,8 +29,8 @@ body {
   &__items {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    // justify-content: space-between;
+    // justify-content: space-around;
+    justify-content: space-between;
   }
 
   &__top {

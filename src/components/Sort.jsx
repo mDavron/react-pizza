@@ -5,6 +5,7 @@ function Sort() {
   const [selected, setSelected] = React.useState(0);
 
   const list = ["популярности", "цене", "алфавиту"];
+  const selectedItem = list[selected];
 
   const onclickListItem = (index) => {
     setSelected(index);
@@ -13,9 +14,10 @@ function Sort() {
 
   return (
     <div className="sort">
-      <div className="sort__label">
+      <div className="sort__label" onClick={() => setOpen(!open)}>
         <svg
-          className={open ? "rotate-icon" : ""}
+          // className={open ? "rotate-icon" : ""}
+          transform={open ? "rotate(180)" : null}
           width="10"
           height="6"
           viewBox="0 0 10 6"
@@ -28,7 +30,7 @@ function Sort() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setOpen(!open)}>{list[selected]}</span>
+        <span>{selectedItem}</span>
       </div>
       {open && (
         <div className="sort__popup">

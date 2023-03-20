@@ -8,18 +8,25 @@ import PizzaBlog from "./components/PizzaBlog";
 import pizzas from "./assets/pizzas.json";
 console.log(pizzas);
 function App() {
+  const [items, setItems] = React.useState([]);
+  // https://64187f9875be53f451e10baa.mockapi.io/items
+  React.useEffect(() => {
+    fetch("https://64187f9875be53f451e10baa.mockapi.io/items")
+      .then((res) => res.json())
+      .then((json) => setItems(json));
+  }, []);
   return (
     <div className="wrapper">
       <Header />
       <div className="content">
         <div className="container">
           <div className="content__top">
-            {/* <Categories /> */}
+            <Categories />
             <Sort />
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            {pizzas.map((obj, i) => {
+            {items.map((obj, i) => {
               return <PizzaBlog key={i} {...obj} />;
             })}
           </div>
