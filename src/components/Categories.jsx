@@ -13,7 +13,7 @@ const categories = [
 function Categories() {
   const [activeIndex, setActiveIndex] = React.useState(0);
 
-  const onclickCategory = (index) => setActiveIndex(index);
+  // const onclickCategory = (index) => setActiveIndex(index);
 
   return (
     <div className="categories">
@@ -22,7 +22,7 @@ function Categories() {
           return (
             <li
               key={i}
-              onClick={() => onclickCategory(i)}
+              onClick={() => setActiveIndex(i)}
               className={activeIndex === i ? "active" : ""}
             >
               {value}

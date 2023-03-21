@@ -4,9 +4,7 @@ import Categories from "./components/Categories";
 import Sort from "./components/Sort";
 import "./scss/app.scss";
 import PizzaBlog from "./components/PizzaBlog";
-// pizza json
-import pizzas from "./assets/pizzas.json";
-console.log(pizzas);
+
 function App() {
   const [items, setItems] = React.useState([]);
   // https://64187f9875be53f451e10baa.mockapi.io/items
@@ -26,8 +24,8 @@ function App() {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            {items.map((obj, i) => {
-              return <PizzaBlog key={i} {...obj} />;
+            {items.map((item, i) => {
+              return <PizzaBlog key={i} {...item} />;
             })}
           </div>
         </div>
