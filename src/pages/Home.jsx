@@ -3,8 +3,12 @@ import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import Sceleton from "../components/PizzaBlock/Sceleton";
+import Pagination from "../components/Pagination";
+import { SearhContext } from "../App";
 
-const Home = ({ searchValue }) => {
+const Home = () => {
+  const { searchValue } = React.useContext(SearhContext);
+
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsloading] = React.useState(true);
   const [categotyId, setCategoryId] = React.useState(0);
@@ -12,6 +16,7 @@ const Home = ({ searchValue }) => {
     name: "популярности",
     sortProperty: "rating",
   });
+  const [currentPage, setCurrentPage] = React.useState(1);
 
   const order = sortType.sortProperty.includes("-") ? "asc" : "desc";
   const sortBy = sortType.sortProperty.replace("-", "");
@@ -28,15 +33,14 @@ const Home = ({ searchValue }) => {
   React.useEffect(() => {
     setIsloading(true);
     fetch(
-      `https://64187f9875be53f451e10baa.mockapi.io/items?${search}${category}&sortBy=${sortBy}&order=${order}`
+      `https://64187f9875be53f451e10baa.mockapi.io/items?page=${currentPage}&limit=4&${search}&${category}&sortBy=${sortBy}&order=${order}`
     )
       .then((res) => res.json())
       .then((json) => setItems(json));
-    setTimeout(() => {
-      setIsloading(false);
-    }, 500);
-    window.scrollTo(0, 0);
-  }, [categotyId, sortType, searchValue]);
+    setIsloading(false);
+
+    // window.scrollTo(0, 0);
+  }, [categotyId, sortType, searchValue, currentPage]);
   return (
     <>
       <div className="content__top">
@@ -48,6 +52,7 @@ const Home = ({ searchValue }) => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? sceletons : pizzas}</div>
+      <Pagination onchangePage={(number) => setCurrentPage(number)} />
     </>
   );
 };
