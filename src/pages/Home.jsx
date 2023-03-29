@@ -5,13 +5,17 @@ import PizzaBlock from "../components/PizzaBlock";
 import Sceleton from "../components/PizzaBlock/Sceleton";
 import Pagination from "../components/Pagination";
 import { SearhContext } from "../App";
+import { useSelector, useDispatch } from "react-redux";
+import { setCategotyId } from "../redux/slices/FilterSlice";
+// console.log(setCategotyId);
 
 const Home = () => {
-  const { searchValue } = React.useContext(SearhContext);
+  const categoryId = useSelector((state) => state.filter.categoryId);
+  const dispatch = useDispatch();
 
+  const { searchValue } = React.useContext(SearhContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsloading] = React.useState(true);
-  const [categotyId, setCategoryId] = React.useState(0);
   const [sortType, setSortType] = React.useState({
     name: "популярности",
     sortProperty: "rating",
@@ -20,7 +24,7 @@ const Home = () => {
 
   const order = sortType.sortProperty.includes("-") ? "asc" : "desc";
   const sortBy = sortType.sortProperty.replace("-", "");
-  const category = categotyId > 0 ? `category=${categotyId}` : "";
+  const category = categoryId > 0 ? `category=${categoryId}` : "";
   const search = searchValue ? `&search=${searchValue}` : "";
 
   const pizzas = items.map((item, index) => (
@@ -30,6 +34,10 @@ const Home = () => {
     <Sceleton key={index} />
   ));
 
+  const onChangeCategory = (id) => {
+    dispatch(setCategotyId(id));
+    console.log(id);
+  };
   React.useEffect(() => {
     setIsloading(true);
     fetch(
@@ -40,14 +48,11 @@ const Home = () => {
     setIsloading(false);
 
     // window.scrollTo(0, 0);
-  }, [categotyId, sortType, searchValue, currentPage]);
+  }, [categoryId, sortType, searchValue, currentPage]);
   return (
     <>
       <div className="content__top">
-        <Categories
-          value={categotyId}
-          onChangeCategory={(i) => setCategoryId(i)}
-        />
+        <Categories value={categoryId} onChangeCategory={onChangeCategory} />
         <Sort value={sortType} onChangeSort={(i) => setSortType(i)} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
