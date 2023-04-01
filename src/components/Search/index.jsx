@@ -4,9 +4,17 @@ import styles from "./Search.module.scss";
 
 const Search = () => {
   const { searchValue, setSearchValue } = React.useContext(SearhContext);
+  const inputRef = React.useRef();
+
+  const onclickClear = () => {
+    setSearchValue("");
+    inputRef.current.focus();
+  };
+
   return (
     <div className={styles.root}>
       <input
+        ref={inputRef}
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
         className={styles.input}
@@ -25,7 +33,7 @@ const Search = () => {
       </svg>
       {searchValue && (
         <svg
-          onClick={() => setSearchValue("")}
+          onClick={onclickClear}
           className={styles.clearIcon}
           height="48"
           viewBox="0 0 48 48"
