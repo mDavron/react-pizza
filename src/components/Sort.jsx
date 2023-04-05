@@ -27,8 +27,7 @@ function Sort() {
     <div className="sort">
       <div className="sort__label">
         <svg
-          // className={open ? "rotate-icon" : ""}
-          transform={open ? "rotate(180)" : null}
+          transform={open ? undefined : "rotate(180)"}
           width="10"
           height="6"
           viewBox="0 0 10 6"

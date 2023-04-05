@@ -9,21 +9,17 @@ import Pagination from "../components/Pagination";
 import { SearhContext } from "../App";
 
 import { useSelector, useDispatch } from "react-redux";
-import { setCategotyId } from "../redux/slices/FilterSlice";
+import { setCategotyId, setCurrentPage } from "../redux/slices/FilterSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
   const categoryId = useSelector((state) => state.filter.categoryId);
   const sortType = useSelector((state) => state.filter.sort.sortProperty);
+  const currentPage = useSelector((state) => state.filter.currentPage);
 
   const { searchValue } = React.useContext(SearhContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsloading] = React.useState(true);
-  // const [sortType, setSortType] = React.useState({
-  //   name: "популярности",
-  //   sortProperty: "rating",
-  // });
-  const [currentPage, setCurrentPage] = React.useState(1);
 
   const order = sortType.includes("-") ? "asc" : "desc";
   const sortBy = sortType.replace("-", "");
@@ -41,16 +37,12 @@ const Home = () => {
     dispatch(setCategotyId(id));
     console.log(id);
   };
+  const onchangePage = (number) => {
+    dispatch(setCurrentPage(number));
+  };
 
   React.useEffect(() => {
     setIsloading(true);
-    // fetch(
-    //   `https://64187f9875be53f451e10baa.mockapi.io/items?page=${currentPage}&limit=4&${search}&${category}&sortBy=${sortBy}&order=${order}`
-    // )
-    //   .then((res) => res.json())
-    //   .then((json) => setItems(json));
-    // setIsloading(false);
-
     axios
       .get(
         `https://64187f9875be53f451e10baa.mockapi.io/items?page=${currentPage}&limit=4&${search}&${category}&sortBy=${sortBy}&order=${order}`
@@ -68,7 +60,7 @@ const Home = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? sceletons : pizzas}</div>
-      <Pagination onchangePage={(number) => setCurrentPage(number)} />
+      <Pagination currentPage={currentPage} onchangePage={onchangePage} />
     </>
   );
 };

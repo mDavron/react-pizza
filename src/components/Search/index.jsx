@@ -1,13 +1,28 @@
 import React from "react";
+import debounce from "lodash.debounce";
 import { SearhContext } from "../../App";
+
 import styles from "./Search.module.scss";
 
 const Search = () => {
-  const { searchValue, setSearchValue } = React.useContext(SearhContext);
+  const [value, setValue] = React.useState("");
+  const { setSearchValue } = React.useContext(SearhContext);
   const inputRef = React.useRef();
 
+  const updateSearchValue = React.useCallback(
+    debounce((str) => {
+      setSearchValue(str);
+    }, 250),
+    []
+  );
+  const onChangeInput = (event) => {
+    setValue(event.target.value);
+    updateSearchValue(event.target.value);
+  };
+  // input focus
   const onclickClear = () => {
     setSearchValue("");
+    setValue("");
     inputRef.current.focus();
   };
 
@@ -15,12 +30,14 @@ const Search = () => {
     <div className={styles.root}>
       <input
         ref={inputRef}
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        value={value}
+        onChange={onChangeInput}
         className={styles.input}
         placeholder="Поиск пиццы..."
         type="text"
       />
+
+      {/* search icon */}
       <svg
         className={styles.icon}
         viewBox="0 0 32 32"
@@ -31,7 +48,9 @@ const Search = () => {
           <path d="M29.71,28.29l-6.5-6.5-.07,0a12,12,0,1,0-1.39,1.39s0,.05,0,.07l6.5,6.5a1,1,0,0,0,1.42,0A1,1,0,0,0,29.71,28.29ZM14,24A10,10,0,1,1,24,14,10,10,0,0,1,14,24Z" />
         </g>
       </svg>
-      {searchValue && (
+
+      {/* clear icon */}
+      {value && (
         <svg
           onClick={onclickClear}
           className={styles.clearIcon}
